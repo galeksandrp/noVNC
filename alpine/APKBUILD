@@ -16,7 +16,7 @@ builddir="$srcdir/$_pkgname-$pkgver"
 options="!check"
 
 prepare() {
-	mv 'noVNC-add_clipboard_support' "$builddir"
+	mv 'novnc-add_clipboard_support' "$builddir"
 }
 
 package() {

@@ -1,4 +1,4 @@
-FROM alpine:3.16.2 AS builder
+FROM alpine:20221110 AS builder
 RUN apk add --update alpine-sdk
 RUN adduser -D ng -G abuild
 RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
@@ -10,9 +10,10 @@ RUN abuild checksum
 RUN abuild deps
 RUN abuild
 
-FROM alpine:3.16.2
+FROM alpine:20221110
 COPY --from=builder /home/ng/.abuild/*.rsa.pub /etc/apk/keys
 COPY --from=builder /home/ng/packages /root/packages
+RUN apk add --no-cache bash
 RUN echo -e 'https://dl-cdn.alpinelinux.org/alpine/edge/testing\n@ng /root/packages/ng' >> /etc/apk/repositories
 RUN apk add --no-cache novnc@ng
-CMD ["novnc"]
+CMD ["novnc_server"]
